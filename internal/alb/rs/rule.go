@@ -70,9 +70,14 @@ func NewDesiredRule(o *NewDesiredRuleOptions) (*Rule, error) {
 		}
 
 		if o.Path != "" {
+			path := o.Path
+			if path == "/" {
+				path = "/*"
+			}
+
 			r.Conditions = append(r.Conditions, &elbv2.RuleCondition{
 				Field:  aws.String("path-pattern"),
-				Values: []*string{aws.String(o.Path)},
+				Values: []*string{aws.String(path)},
 			})
 		}
 	}
